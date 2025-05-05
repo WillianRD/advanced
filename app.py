@@ -1,6 +1,11 @@
 from functools import reduce
 import time
 import logging
+from datetime import time, timedelta
+import os
+import csv
+import re
+import datetime
 
 def functionArgsAndKWargs(*args, **kwargs):
     print('args:', args)
@@ -42,13 +47,11 @@ def filter_num():
 filter_num()  
 
 def reduce_lambdas():
-    from functools import reduce
     lista = [1,2,3,4,5,6,7,8]
     produtos = reduce(lambda x, y : x * y, lista)
 reduce_lambdas()    
     
 def desafio():
-    from functools import reduce
     lista = [1,2,3,4,5,6,7,8,9,10,11,12,14]
     dobrar = list(map(lambda x : x * 2, lista))
     filtar_valor = list(filter(lambda x : x > 10, dobrar))
@@ -231,8 +234,6 @@ def multiplos():
     print(f'Soma de: {filtrar} é = {somar_fatorial}')
 multiplos()     
 
-from functools import reduce
-
 def relatorio_de_faturamento():
     produtosDicionario = [
         {"nome": "Camisa", "preco": 50, "quantidade": 4},
@@ -251,8 +252,6 @@ def relatorio_de_faturamento():
     print(f"\nFaturamento total: R$ {faturamento_total:.2f}")
 
 relatorio_de_faturamento()
-
-from functools import reduce
 
 def relatorio_lucro():
     produtos = [
@@ -282,7 +281,7 @@ def relatorio_lucro():
 relatorio_lucro()
 
 def relatorio_lucro_categoria():
-    import csv
+
     produtos = [
         {"nome": "Camisa", "custo": 25, "venda": 55, "quantidade": 10, "categoria": "Roupas"},
         {"nome": "Calça", "custo": 70, "venda": 120, "quantidade": 5, "categoria": "Roupas"},
@@ -423,3 +422,133 @@ def teste():
   status = list(filter(lambda x : x % 2 == 0, lista))
   print(status)
 teste()
+
+def datetime_teste():
+    agora = datetime.datetime.now()
+    agora_str = agora.strftime("%d/%m/%Y") 
+    datas = re.findall(r"\d{2}/\d{2}/\d{4}", agora_str)
+    print(agora)
+    print(datas)
+datetime_teste()
+
+def system_404():
+    system = os.environ
+    print(system['HOME'])
+    print(os.getcwd()) # Localizar a pasta onde você tá
+    
+system_404()    
+
+def horario():
+    from datetime import datetime
+    
+    agora = datetime.now()
+    print("Horário atual:", agora.strftime("%H:%M:%S"))
+
+horario()    
+
+def atrasar():
+    import time
+    print('Esperando')
+ #   time.sleep(3)
+    print('Pronto')
+atrasar()
+
+def mostrar_data():
+    from datetime import datetime
+    
+    hoje = datetime.today()
+    print('Data de hoje', hoje.strftime("%d/%m/%Y"))
+mostrar_data()
+
+def natal():
+    from datetime import datetime
+    
+    hoje = datetime.today()
+    natal = datetime(hoje.year,12, 25)
+    faltam = (natal - hoje).days
+    print(f'Faltam {faltam} dias para o natal')
+natal()
+
+def horario_antes_ou_depois():
+    from datetime import datetime
+    
+    agora = datetime.now()
+    if agora.hour < 12:
+        print('Antes do meio dia')
+    else:
+        print('Depois do meio dia')
+        
+horario_antes_ou_depois()
+
+def cronometro():
+    import time
+    
+    print('Contagem regressiva')
+    for i in range(5,0, -1):
+        print(i)
+       # time.sleep(1)
+    print('Tempo acabou')    
+cronometro()
+
+def cronometro_simples():
+    for i in range(1, 11, +1):
+        print(i)
+        
+cronometro_simples()
+
+def cronometro_usuario():
+    import time
+    cronometro: int = int(input('Digite um valor INT'))
+    for i in range(0,cronometro, +1):
+        time.sleep(1)
+        print(i)
+cronometro_usuario()
+
+def calcular_min():
+    import time
+    
+    inicio = time.time()
+    total = 0
+    
+    for i in range(1, 1_000_001):
+        total += 1
+        
+    fim = time.time()
+    print(f"Resultado da soma: {total}")
+    print(f"Tempo de execução: {fim - inicio:.5f} segundos")
+calcular_min()
+
+def calcular_idade():
+    from datetime import datetime
+    from calendar import monthrange
+
+    nascimento_str = input('Digite sua data de nascimento (ddmmaaaa): ')
+    nascimento = datetime.strptime(nascimento_str, "%d%m%Y")
+    hoje = datetime.today()
+
+    # Total de dias vividos
+    dias_totais = (hoje - nascimento).days
+    anos_aproximado = dias_totais / 365
+
+    # Cálculo de idade exata
+    anos = hoje.year - nascimento.year
+    meses = hoje.month - nascimento.month
+    dias = hoje.day - nascimento.day
+
+    if dias < 0:
+        meses -= 1
+        # Corrigindo mês anterior se mês atual for janeiro
+        mes_anterior = hoje.month - 1 if hoje.month > 1 else 12
+        ano_para_mes = hoje.year if hoje.month > 1 else hoje.year - 1
+        dias += monthrange(ano_para_mes, mes_anterior)[1]
+
+    if meses < 0:
+        anos -= 1
+        meses += 12
+
+    print(f'Você tem {anos} anos, {meses} meses e {dias} dias.')
+    print(f'Total de dias vividos: {dias_totais}')
+    print(f'Idade aproximada em anos (dividindo dias por 365): {anos_aproximado:.0f} anos')
+
+calcular_idade()
+
